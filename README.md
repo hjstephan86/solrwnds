@@ -1,6 +1,6 @@
-# Solrwinds - System Administration & Analysis Tools
+# Solarwinds - Log Analysis Tool
 
-Collection of professional tools for system administration, log analysis, and software development.
+Professional tool for log analysis of Solarwinds
 
 ## Modules
 
