@@ -424,7 +424,7 @@ class AccessLogAnalyzer:
         
         print(f"✓ CSV exportiert: {filename}")
     
-    def export_html(self, filename: str = 'access_log_report.html'):
+    def export_html(self, filename: str = 'access-log-report.html'):
         """Exportiert in HTML"""
         countries = defaultdict(int)
         for r in self.requests:
@@ -447,98 +447,167 @@ class AccessLogAnalyzer:
     <style>
         * {{ margin: 0; padding: 0; box-sizing: border-box; }}
         body {{
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #f8f9fa;
+            color: #2d3436;
+            line-height: 1.6;
             padding: 20px;
         }}
         .container {{
             max-width: 1200px;
             margin: 0 auto;
             background: white;
-            border-radius: 10px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            border-radius: 4px;
             overflow: hidden;
         }}
         .header {{
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+            background: #f1f3f5;
+            border-bottom: 1px solid #dee2e6;
+            padding: 50px 40px;
             text-align: center;
         }}
-        .header h1 {{ font-size: 28px; margin-bottom: 10px; }}
-        .header p {{ opacity: 0.9; }}
+        .header h1 {{ 
+            font-size: 32px; 
+            margin-bottom: 8px; 
+            color: #1a1a1a;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }}
+        .header p {{ 
+            color: #666;
+            font-size: 13px;
+            font-weight: 400;
+            opacity: 1;
+        }}
         .stats {{
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 30px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-top: 35px;
         }}
         .stat-box {{
-            background: rgba(255,255,255,0.1);
-            padding: 20px;
-            border-radius: 8px;
+            background: white;
+            padding: 24px;
+            border-radius: 4px;
             text-align: center;
-            backdrop-filter: blur(10px);
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.2s ease;
         }}
-        .stat-number {{ font-size: 28px; font-weight: bold; }}
-        .stat-label {{ font-size: 12px; margin-top: 5px; opacity: 0.9; }}
+        .stat-box:hover {{
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }}
+        .stat-number {{ 
+            font-size: 32px; 
+            font-weight: 700; 
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }}
+        .stat-label {{ 
+            font-size: 12px; 
+            margin: 0; 
+            color: #c3a51d;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }}
         .section {{
-            padding: 40px;
-            border-bottom: 1px solid #eee;
+            padding: 45px 40px;
+            border-bottom: 1px solid #e9ecef;
         }}
-        .section h2 {{ color: #667eea; margin-bottom: 20px; font-size: 20px; }}
+        .section:last-child {{
+            border-bottom: none;
+        }}
+        .section h2 {{ 
+            color: #1a1a1a; 
+            margin-bottom: 30px; 
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }}
         table {{
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
+            color: #2d3436;
         }}
         th {{
-            background: #667eea;
-            color: white;
-            padding: 12px;
+            background: #fafbfc;
+            color: #1a1a1a;
+            padding: 14px 12px;
             text-align: left;
             font-weight: 600;
+            border-bottom: 2px solid #dee2e6;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }}
-        td {{ padding: 10px 12px; border-bottom: 1px solid #eee; }}
-        tr:hover {{ background: #f5f5f5; }}
-        tr.vpn {{ background: #fff3cd; }}
-        tr.mobile {{ background: #cfe2ff; }}
-        tr.proxy {{ background: #d1ecf1; }}
-        tr.bot {{ background: #f0f0f0; }}
+        td {{ 
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            color: #555;
+        }}
+        tr:hover {{ 
+            background: #fafbfc;
+        }}
+        tr.vpn {{ background: #f8f9ff; }}
+        tr.vpn:hover {{ background: #f1f3ff; }}
+        tr.mobile {{ background: #f8f9ff; }}
+        tr.mobile:hover {{ background: #f1f3ff; }}
+        tr.proxy {{ background: #f8f9ff; }}
+        tr.proxy:hover {{ background: #f1f3ff; }}
+        tr.bot {{ background: #fafbfc; }}
+        tr.bot:hover {{ background: #f3f5f7; }}
         .badge {{
             display: inline-block;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 10px;
             font-weight: 600;
-            margin-right: 5px;
+            margin-right: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }}
-        .badge-vpn {{ background: #fff3cd; color: #ff9800; }}
-        .badge-mobile {{ background: #cfe2ff; color: #2196f3; }}
-        .badge-proxy {{ background: #d1ecf1; color: #17a2b8; }}
-        .badge-bot {{ background: #f0f0f0; color: #999; }}
+        .badge-vpn {{ background: #e7e8ff; color: #5a5c9b; }}
+        .badge-mobile {{ background: #e7e8ff; color: #5a5c9b; }}
+        .badge-proxy {{ background: #e7e8ff; color: #5a5c9b; }}
+        .badge-bot {{ background: #eeeff2; color: #777; }}
         .country-list {{ 
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 12px;
         }}
         .country-item {{
-            padding: 10px;
-            background: #f9f9f9;
-            border-left: 4px solid #667eea;
-            border-radius: 4px;
+            padding: 14px;
+            background: #fafbfc;
+            border-left: 3px solid #efcc2b;
+            border-radius: 3px;
+            font-size: 13px;
         }}
-        .country-item strong {{ color: #667eea; }}
+        .country-item strong {{ 
+            color: #1a1a1a;
+            font-weight: 600;
+        }}
         footer {{
             text-align: center;
-            color: white;
-            font-size: 12px;
-            margin-top: 30px;
-            padding: 20px;
-            background: #667eea;
+            color: #666;
+            font-size: 11px;
+            margin-top: 0;
+            padding: 25px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
         }}
-        code {{ background: #f0f0f0; padding: 2px 6px; border-radius: 3px; }}
+        footer p {{
+            margin: 4px 0;
+        }}
+        code {{ 
+            background: #f3f5f7; 
+            padding: 2px 6px; 
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: #555;
+        }}
     </style>
 </head>
 <body>
@@ -672,8 +741,8 @@ Beispiele:
     )
     
     parser.add_argument('-d', '--directory', default='.', help='Verzeichnis mit Log-Dateien')
-    parser.add_argument('--csv', default='access_log_analysis.csv', help='CSV-Datei exportieren')
-    parser.add_argument('--html', default='access_log_report.html', help='HTML-Report exportieren')
+    parser.add_argument('--csv', default='access-log-analysis.csv', help='CSV-Datei exportieren')
+    parser.add_argument('--html', default='access-log-report.html', help='HTML-Report exportieren')
     
     args = parser.parse_args()
     
